@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will Sutton | Senior Marketing Analyst</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #D4AF37;
+      --gold-light: #F4E4BA;
+      --gold-dark: #8B7355;
+      --parchment: #F5F0E6;
+      --ink: #1a1a1a;
+      --ink-light: #2d2d2d;
+      --ember: #C73E1D;
+      --forest: #2D5A27;
+      --sky: #4A90A4;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Crimson Text', Georgia, serif;
+      background: var(--ink);
+      color: var(--parchment);
+      line-height: 1.7;
+      font-size: 18px;
+    }
+    
+    /* Decorative background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse at 20% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    /* Header */
+    header {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+      animation: pulse 8s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    }
+    
+    .crest {
+      width: 120px;
+      height: 120px;
+      border: 3px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      position: relative;
+      animation: fadeInDown 1s ease-out;
+    }
+    
+    .crest::before {
+      content: '⚔';
+      font-size: 3rem;
+      color: var(--gold);
+    }
+    
+    .crest::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 50%;
+    }
+    
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+      animation: fadeInDown 1s ease-out 0.2s both;
+      text-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+    }
+    
+    .subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      margin-bottom: 2rem;
+      animation: fadeInDown 1s ease-out 0.4s both;
+    }
+    
+    .tagline {
+      font-style: italic;
+      font-size: 1.3rem;
+      max-width: 600px;
+      color: var(--parchment);
+      opacity: 0.9;
+      animation: fadeInDown 1s ease-out 0.6s both;
+    }
+    
+    .stats-bar {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeInUp 1s ease-out 0.8s both;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+    }
+    
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      color: var(--gold-dark);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+    
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Sections */
+    section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .section-header h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-header h2::before,
+    .section-header h2::after {
+      content: '◆';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.6rem;
+      color: var(--gold-dark);
+    }
+    
+    .section-header h2::before { left: -2rem; }
+    .section-header h2::after { right: -2rem; }
+    
+    /* Skills Grid - Quest Log Style */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .skill-card {
+      background: linear-gradient(145deg, rgba(45, 45, 45, 0.8), rgba(26, 26, 26, 0.9));
+      border: 1px solid var(--gold-dark);
+      padding: 2rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gold);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.3s ease;
+    }
+    
+    .skill-card:hover::before {
+      transform: scaleY(1);
+    }
+    
+    .skill-card:hover {
+      border-color: var(--gold);
+      transform: translateX(4px);
+    }
+    
+    .skill-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .skill-card h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      color: var(--gold-light);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    
+    .skill-card p {
+      font-size: 0.95rem;
+      color: rgba(245, 240, 230, 0.8);
+      margin-bottom: 1rem;
+    }
+    
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--gold-dark);
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+    
+    /* Experience Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 3rem;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--gold), var(--gold-dark), transparent);
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+    
+    .timeline-item:last-child {
+      border-bottom: none;
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -3rem;
+      top: 0.5rem;
+      width: 12px;
+      height: 12px;
+      background: var(--ink);
+      border: 2px solid var(--gold);
+      transform: translateX(-5px) rotate(45deg);
+    }
+    
+    .timeline-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    
+    .timeline-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      color: var(--gold-light);
+      margin-bottom: 0.25rem;
+    }
+    
+    .timeline-company {
+      font-style: italic;
+      color: var(--gold-dark);
+      margin-bottom: 1rem;
+    }
+    
+    .timeline-desc {
+      color: rgba(245, 240, 230, 0.85);
+    }
+    
+    /* Portfolio Grid */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+    
+    .portfolio-card {
+      background: var(--ink-light);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      overflow: hidden;
+      transition: all 0.4s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    
+    .portfolio-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(212, 175, 55, 0.1);
+    }
+    
+    .portfolio-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      filter: saturate(0.9);
+      transition: all 0.4s ease;
+    }
+    
+    .portfolio-card:hover .portfolio-img {
+      filter: saturate(1.1);
+      transform: scale(1.03);
+    }
+    
+    .portfolio-content {
+      padding: 1.5rem;
+    }
+    
+    .portfolio-category {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    
+    .portfolio-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      color: var(--parchment);
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+    
+    .portfolio-meta {
+      font-size: 0.85rem;
+      color: var(--gold-dark);
+    }
+    
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2rem 0;
+      color: var(--gold-dark);
+    }
+    
+    .divider span {
+      font-size: 0.8rem;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: '';
+      width: 100px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+    }
+    
+    /* Contact */
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .contact-link {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      text-decoration: none;
+      padding: 1rem 2rem;
+      border: 1px solid var(--gold-dark);
+      transition: all 0.3s ease;
+      letter-spacing: 0.1em;
+    }
+    
+    .contact-link:hover {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+    }
+    
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.1);
+      font-size: 0.85rem;
+      color: var(--gold-dark);
+    }
+    
+    footer .motto {
+      font-family: 'Cinzel', serif;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .stats-bar { gap: 2rem; }
+      .timeline { padding-left: 2rem; }
+      .timeline-item::before { left: -2rem; }
+      section { padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="crest"></div>
+    <h1>Will Sutton</h1>
+    <p class="subtitle">Senior Marketing Analyst</p>
+    <p class="tagline">"Where data meets games—transforming player insights into strategic advantage."</p>
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-value">136</span>
+        <span class="stat-label">Visualizations</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">2.8K</span>
+        <span class="stat-label">Followers</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">🏆</span>
+        <span class="stat-label">IronViz 2022</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">10+</span>
+        <span class="stat-label">Years Analytics</span>
+      </div>
+    </div>
+    <div class="scroll-hint">↓ Scroll to explore ↓</div>
+  </header>
+
+  <section id="skills">
+    <div class="section-header">
+      <h2>Skills & Requirements Match</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">📊</div>
+        <h3>Performance Marketing Analytics</h3>
+        <p>Marketing analytics team at WorldRemit: CRM reporting, campaign dashboards, forecasting models. BBC Audiences: cross-media data analysis for senior managers.</p>
+        <div class="skill-tags">
+          <span class="tag">CRM</span>
+          <span class="tag">Attribution</span>
+          <span class="tag">Forecasting</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🛠️</div>
+        <h3>SQL & Statistical Languages</h3>
+        <p>Led SQL training revamp for 50+ consultants. R forecasting at WorldRemit. Founded Python learning platform at The Information Lab.</p>
+        <div class="skill-tags">
+          <span class="tag">SQL</span>
+          <span class="tag">Python</span>
+          <span class="tag">R</span>
+          <span class="tag">dbt</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📈</div>
+        <h3>Dashboarding & Automation</h3>
+        <p>Tableau Certified Professional. VOTD tracker with 124K+ views. Automated ETL workflows at BBC. Alteryx & dbt pipelines.</p>
+        <div class="skill-tags">
+          <span class="tag">Tableau</span>
+          <span class="tag">Alteryx</span>
+          <span class="tag">ETL</span>
+          <span class="tag">dbt</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🎯</div>
+        <h3>Translating Data to Action</h3>
+        <p>Presented COVID dashboard to division. Customer segmentation used by top 100 BBC employees. Retail strategy pitches.</p>
+        <div class="skill-tags">
+          <span class="tag">Stakeholder Comms</span>
+          <span class="tag">Presentations</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🎮</div>
+        <h3>Gaming Domain Passion</h3>
+        <p>Co-host #GamesNightViz community. 20+ gaming visualizations: Zelda, Final Fantasy, Pokemon, Stardew Valley, Halo, Mario.</p>
+        <div class="skill-tags">
+          <span class="tag">RPGs</span>
+          <span class="tag">Strategy</span>
+          <span class="tag">Community</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔬</div>
+        <h3>A/B Testing & Experimentation</h3>
+        <p>Statistical modeling at BBC and WorldRemit. Machine learning for data enhancement. Version control & reproducible workflows.</p>
+        <div class="skill-tags">
+          <span class="tag">Statistics</span>
+          <span class="tag">ML</span>
+          <span class="tag">Git</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span>◆</span></div>
+
+  <section id="experience">
+    <div class="section-header">
+      <h2>Quest Log</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2022 – Present</div>
+        <div class="timeline-title">Data / AI Consultant</div>
+        <div class="timeline-company">The Information Lab</div>
+        <p class="timeline-desc">Enabling companies to maximize Tableau value. Training delivery, dashboard builds, mentoring future speakers. Led SQL course revamp, founded Python platform. Currently expanding into Generative AI, MCP, LangChain, dbt.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2021 – 2022</div>
+        <div class="timeline-title">Senior Data Analyst</div>
+        <div class="timeline-company">WorldRemit — Marketing Analytics</div>
+        <p class="timeline-desc">CRM reporting dashboards via SQL, dbt, Tableau. Forecasting models with R for Brand team. Marketing analytics focus.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2017 – 2021</div>
+        <div class="timeline-title">Senior Data Analyst</div>
+        <div class="timeline-company">BBC — Audiences & Archives</div>
+        <p class="timeline-desc">Tableau reporting suite for BBC Online. COVID audience dashboard. Customer segmentation for top 100 employees. Cross-media data pioneering. Mentoring analysts.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2013 – 2017</div>
+        <div class="timeline-title">Senior Analyst</div>
+        <div class="timeline-company">Cerulli Associates</div>
+        <p class="timeline-desc">Twitter data mining project pitched to MDs. SEC 13F parsing with R. Lodestar data subscription management. Tableau data supplements for reports.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span>◆</span></div>
+
+  <section id="portfolio">
+    <div class="section-header">
+      <h2>Featured Works</h2>
+    </div>
+    <div class="portfolio-grid">
+      <a href="https://public.tableau.com/app/profile/wjsutton/viz/ClosingtheYouthLiteracyGapIronViz2022/Dashboard1" target="_blank" class="portfolio-card">
+        <img src="https://public.tableau.com/static/images/Cl/ClosingtheYouthLiteracyGapIronViz2022/Dashboard1/4_3.png" alt="Iron Viz 2022" class="portfolio-img">
+        <div class="portfolio-content">
+          <div class="portfolio-category">🏆 Iron Viz Champion 2022</div>
+          <div class="portfolio-title">Closing the Youth Literacy Gap</div>
+          <div class="portfolio-meta">20K+ views • Data storytelling excellence</div>
+        </div>
+      </a>
+      <a href="https://public.tableau.com/app/profile/wjsutton/viz/TableauPublicVizoftheDayVOTD/VOTD" target="_blank" class="portfolio-card">
+        <img src="https://public.tableau.com/static/images/Ta/TableauPublicVizoftheDayVOTD/VOTD/4_3.png" alt="VOTD Tracker" class="portfolio-img">
+        <div class="portfolio-content">
+          <div class="portfolio-category">Automated Reporting</div>
+          <div class="portfolio-title">Tableau Public Viz of the Day Tracker</div>
+          <div class="portfolio-meta">124K+ views • Automated data pipeline</div>
+        </div>
+      </a>
+      <a href="https://public.tableau.com/app/profile/wjsutton/viz/FinancialComplaintsRWFD/Overview" target="_blank" class="portfolio-card">
+        <img src="https://public.tableau.com/static/images/Fi/FinancialComplaintsRWFD/Overview/4_3.png" alt="Financial Complaints" class="portfolio-img">
+        <div class="portfolio-content">
+          <div class="portfolio-category">Performance Dashboard</div>
+          <div class="portfolio-title">Financial Complaints Analytics</div>
+          <div class="portfolio-meta">8.8K+ views • KPI tracking & trends</div>
+        </div>
+      </a>
+      <a href="https://public.tableau.com/app/profile/wjsutton/viz/TheMoodsofMidgarCharacterSentimentsinFinalFantasy7GamesNightViz/TheMoodsofMidgar" target="_blank" class="portfolio-card">
+        <img src="https://public.tableau.com/static/images/Th/TheMoodsofMidgarCharacterSentimentsinFinalFantasy7GamesNightViz/TheMoodsofMidgar/4_3.png" alt="Final Fantasy 7" class="portfolio-img">
+        <div class="portfolio-content">
+          <div class="portfolio-category">🎮 Gaming Analytics</div>
+          <div class="portfolio-title">The Moods of Midgar | Final Fantasy 7</div>
+          <div class="portfolio-meta">Sentiment analysis • NLP techniques</div>
+        </div>
+      </a>
+      <a href="https://public.tableau.com/app/profile/wjsutton/viz/FieldsofGoldStardewValleyCropsforanEasyProfit/StardewCrops" target="_blank" class="portfolio-card">
+        <img src="https://public.tableau.com/static/images/Fi/FieldsofGoldStardewValleyCropsforanEasyProfit/StardewCrops/4_3.png" alt="Stardew Valley" class="portfolio-img">
+        <div class="portfolio-content">
+          <div class="portfolio-category">🎮 Gaming Analytics</div>
+          <div class="portfolio-title">Fields of Gold | Stardew Valley ROI</div>
+          <div class="portfolio-meta">Crop economics • Player strategy</div>
+        </div>
+      </a>
+      <a href="https://public.tableau.com/app/profile/wjsutton/viz/HaloTheLegacyMatchCollection/TitleScreen" target="_blank" class="portfolio-card">
+        <img src="https://public.tableau.com/static/images/Ha/HaloTheLegacyMatchCollection/TitleScreen/4_3.png" alt="Halo" class="portfolio-img">
+        <div class="portfolio-content">
+          <div class="portfolio-category">🎮 Gaming Analytics</div>
+          <div class="portfolio-title">Halo | Legacy Match Collection</div>
+          <div class="portfolio-meta">3.4K views • Player performance data</div>
+        </div>
+      </a>
+    </div>
+    <p style="text-align:center; margin-top:2rem; color:var(--gold-dark);">
+      <a href="https://public.tableau.com/app/profile/wjsutton" target="_blank" style="color:var(--gold);">View all 136 visualizations →</a>
+    </p>
+  </section>
+
+  <div class="divider"><span>◆</span></div>
+
+  <section id="contact">
+    <div class="section-header">
+      <h2>Connect</h2>
+    </div>
+    <div class="contact-links">
+      <a href="https://public.tableau.com/app/profile/wjsutton" target="_blank" class="contact-link">Tableau Public</a>
+      <a href="https://www.linkedin.com/in/will-sutton-14711627/" target="_blank" class="contact-link">LinkedIn</a>
+      <a href="https://github.com/wjsutton" target="_blank" class="contact-link">GitHub</a>
+      <a href="https://twitter.com/WJSutton12" target="_blank" class="contact-link">Twitter</a>
+    </div>
+  </section>
+
+  <footer>
+    <p class="motto">"Embrace Fellowship. Hone Your Craft."</p>
+    <p>Cambridge, UK • Ready for the next quest</p>
+  </footer>
+</body>
+</html>

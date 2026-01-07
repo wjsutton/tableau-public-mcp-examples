@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will Sutton | Tableau Public Gallery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #11BAA9;
+            --accent-dark: #0d9488;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(255,255,255,0.06);
+            --glow: rgba(17, 186, 169, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Animated background */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, var(--glow), transparent),
+                radial-gradient(ellipse 60% 40% at 100% 0%, rgba(17, 186, 169, 0.08), transparent),
+                radial-gradient(ellipse 50% 30% at 0% 100%, rgba(17, 186, 169, 0.05), transparent);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Header */
+        header {
+            padding: 4rem 2rem 3rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 40px var(--glow);
+            object-fit: cover;
+        }
+
+        .header-text {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .header-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .champion-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: var(--bg-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 20px var(--glow);
+        }
+
+        .champion-badge svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Gallery Grid */
+        .gallery-section {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .viz-count {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Viz Card */
+        .viz-card {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: block;
+        }
+
+        .viz-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.4),
+                0 0 60px var(--glow);
+        }
+
+        .viz-image-container {
+            position: relative;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+        }
+
+        .viz-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .viz-card:hover .viz-image {
+            transform: scale(1.08);
+        }
+
+        .viz-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(10, 10, 15, 0.95) 0%,
+                rgba(10, 10, 15, 0.4) 50%,
+                transparent 100%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        .viz-card:hover .viz-overlay {
+            opacity: 1;
+        }
+
+        .view-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: var(--bg-dark);
+            padding: 0.625rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.3s ease 0.1s;
+        }
+
+        .viz-card:hover .view-button {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .view-button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .viz-info {
+            padding: 1.25rem;
+        }
+
+        .viz-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        .viz-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        .viz-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .viz-meta svg {
+            width: 14px;
+            height: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading placeholder */
+        .viz-image-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 100%);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 2rem 1rem;
+            }
+            
+            .gallery-section {
+                padding: 1rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .stats {
+                gap: 1.5rem;
+            }
+        }
+
+        /* Scroll reveal animation */
+        .viz-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Staggered animation delays - applied via inline styles */
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <header>
+        <div class="header-content">
+            <img src="https://public.tableau.com/avatar/d47b33a4-cf2c-4101-a201-7226fc9e1c07.jpeg" alt="Will Sutton" class="avatar">
+            <div class="header-text">
+                <h1>Will Sutton</h1>
+                <p class="tagline">Consultant @ The Information Lab · Cambridge, UK</p>
+                <span class="champion-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                    </svg>
+                    Iron Viz 2022 Champion
+                </span>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">136</div>
+                        <div class="stat-label">Visualizations</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">2,873</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">451</div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="gallery-section">
+        <div class="section-header">
+            <h2 class="section-title">Visualization Gallery</h2>
+            <span class="viz-count">136 public visualizations</span>
+        </div>
+        
+        <div class="gallery-grid">
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/TableauPublicVizoftheDayVOTD/VOTD" target="_blank" class="viz-card" style="animation-delay: 0.01s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ta/TableauPublicVizoftheDayVOTD/VOTD/4_3.png" alt="Tableau Public Viz of the Day | #VOTD | #VizOfTheDay" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Tableau Public Viz of the Day | #VOTD | #VizOfTheDay</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            124,185
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            662
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/olympic_ages/TheAgeofOlympians" target="_blank" class="viz-card" style="animation-delay: 0.02s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/ol/olympic_ages/TheAgeofOlympians/4_3.png" alt="The Age of Olympians | #SportsVizSunday" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">The Age of Olympians | #SportsVizSunday</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            15,398
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            312
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/FieldsofGoldStardewValleyCropsforanEasyProfit/StardewCrops" target="_blank" class="viz-card" style="animation-delay: 0.03s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Fi/FieldsofGoldStardewValleyCropsforanEasyProfit/StardewCrops/4_3.png" alt="Fields of Gold | Stardew Valley Crops for an Easy Profit" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Fields of Gold | Stardew Valley Crops for an Easy Profit</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            356
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            9
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/UniqueLegoPartsSummerOfSQL/UniqueLegoParts" target="_blank" class="viz-card" style="animation-delay: 0.04s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Un/UniqueLegoPartsSummerOfSQL/UniqueLegoParts/4_3.png" alt="Unique Lego Parts | #SummerOfSQL" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Unique Lego Parts | #SummerOfSQL</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            294
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            6
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/BreathoftheWildVeganModeTheLegendofZeldaGamesNightViz/LongForm" target="_blank" class="viz-card" style="animation-delay: 0.05s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Br/BreathoftheWildVeganModeTheLegendofZeldaGamesNightViz/LongForm/4_3.png" alt="Breath of the Wild: Vegan Mode | The Legend of Zelda | #GamesNightViz" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Breath of the Wild: Vegan Mode | The Legend of Zelda | #GamesNightViz</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            690
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            15
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/UniversityGraduatesAIDemo/Performance" target="_blank" class="viz-card" style="animation-delay: 0.06s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Un/UniversityGraduatesAIDemo/Performance/4_3.png" alt="University Graduates AI Demo" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">University Graduates AI Demo</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            111
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            1
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/TheMoodsofMidgarCharacterSentimentsinFinalFantasy7GamesNightViz/TheMoodsofMidgar" target="_blank" class="viz-card" style="animation-delay: 0.07s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Th/TheMoodsofMidgarCharacterSentimentsinFinalFantasy7GamesNightViz/TheMoodsofMidgar/4_3.png" alt="The Moods of Midgar | Character Sentiments in Final Fantasy 7 | #GamesNightViz" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">The Moods of Midgar | Character Sentiments in Final Fantasy 7 | #GamesNightViz</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            1,572
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            66
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/OfftheMenuMakeoverMonday2024Week7/OfftheMenu" target="_blank" class="viz-card" style="animation-delay: 0.08s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Of/OfftheMenuMakeoverMonday2024Week7/OfftheMenu/4_3.png" alt="Off the Menu | Makeover Monday 2024 Week 7" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Off the Menu | Makeover Monday 2024 Week 7</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            195
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            2
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/CrossDepartmentPurchases/CrossDepartmentDash" target="_blank" class="viz-card" style="animation-delay: 0.09s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Cr/CrossDepartmentPurchases/CrossDepartmentDash/4_3.png" alt="Cross Department Purchases" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Cross Department Purchases</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            315
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            4
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/ExploringtheSQLBitsConference2023/ConferenceExplorer" target="_blank" class="viz-card" style="animation-delay: 0.1s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ex/ExploringtheSQLBitsConference2023/ConferenceExplorer/4_3.png" alt="Exploring the SQLBits Conference 2023" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Exploring the SQLBits Conference 2023</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            244
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            8
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/ChartingtheGamingRivalry/Dashboard1" target="_blank" class="viz-card" style="animation-delay: 0.11s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ch/ChartingtheGamingRivalry/Dashboard1/4_3.png" alt="Charting the Gaming Rivalry" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Charting the Gaming Rivalry</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            257
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            2
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/CashingOutTheRiseofDigitalPayments/CashingOut" target="_blank" class="viz-card" style="animation-delay: 0.12s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ca/CashingOutTheRiseofDigitalPayments/CashingOut/4_3.png" alt="Cashing Out | The Rise of Digital Payments" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Cashing Out | The Rise of Digital Payments</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            202
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            4
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/AmericasInvestmentLandscapeForeignDirectInvestmentsToandFromAmerica/ForeignDirectInvestments" target="_blank" class="viz-card" style="animation-delay: 0.13s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Am/AmericasInvestmentLandscapeForeignDirectInvestmentsToandFromAmerica/ForeignDirectInvestments/4_3.png" alt="America's Investment Landscape | Foreign Direct Investments To and From America" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">America's Investment Landscape | Foreign Direct Investments To and From America</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            258
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            4
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/EvolvingEconomiesChangesinGDPbySector/EvolvingEconomies" target="_blank" class="viz-card" style="animation-delay: 0.14s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ev/EvolvingEconomiesChangesinGDPbySector/EvolvingEconomies/4_3.png" alt="Evolving Economies | Changes in GDP by Sector" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Evolving Economies | Changes in GDP by Sector</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            187
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            6
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/Pac-ManSpeedruns/Speedruns" target="_blank" class="viz-card" style="animation-delay: 0.15s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Pa/Pac-ManSpeedruns/Speedruns/4_3.png" alt="Pac-Man Speedruns | #GamesNightViz" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Pac-Man Speedruns | #GamesNightViz</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            235
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            3
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/AreYouFasterThana10YearOldSportsVizSunday/TITLE" target="_blank" class="viz-card" style="animation-delay: 0.16s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ar/AreYouFasterThana10YearOldSportsVizSunday/TITLE/4_3.png" alt="Are You Faster Than a 10 Year Old? #SportsVizSunday" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Are You Faster Than a 10 Year Old? #SportsVizSunday</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            725
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            11
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/ShellShockGlobalDemandforPearlsVisualCapitalist/Pearls" target="_blank" class="viz-card" style="animation-delay: 0.17s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Sh/ShellShockGlobalDemandforPearlsVisualCapitalist/Pearls/4_3.png" alt="Shell Shock | Global Demand for Pearls | Visual Capitalist" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Shell Shock | Global Demand for Pearls | Visual Capitalist</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            4,026
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            43
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/DiamondsareaBelgianGirlsBestFriend/Diamonds" target="_blank" class="viz-card" style="animation-delay: 0.18s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Di/DiamondsareaBelgianGirlsBestFriend/Diamonds/4_3.png" alt="Diamonds are a Belgian Girl's Best Friend | Visual Capitalist" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Diamonds are a Belgian Girl's Best Friend | Visual Capitalist</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            204
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            1
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/PokemonMovesetsGeneration1GamesNightViz/Gen1" target="_blank" class="viz-card" style="animation-delay: 0.19s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Po/PokemonMovesetsGeneration1GamesNightViz/Gen1/4_3.png" alt="Pokemon Movesets | Generation 1 | #GamesNightViz" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Pokemon Movesets | Generation 1 | #GamesNightViz</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            439
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            15
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/HighStreetCaffeine/ImprovingabarchartMakeoverMonday2023Week9" target="_blank" class="viz-card" style="animation-delay: 0.2s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Hi/HighStreetCaffeine/ImprovingabarchartMakeoverMonday2023Week9/4_3.png" alt="Improve this Viz | High Street Caffeine | #MakeoverMonday 2023 W9" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Improve this Viz | High Street Caffeine | #MakeoverMonday 2023 W9</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            761
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            21
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/BeerMileWorldChamps/label" target="_blank" class="viz-card" style="animation-delay: 0.21s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Be/BeerMileWorldChamps/label/4_3.png" alt="Beer Mile World Champs | #SportsVizSunday #GamesNightViz" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Beer Mile World Champs | #SportsVizSunday #GamesNightViz</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            295
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            2
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/AgathaChristieTheToolsoftheTradeDataFamCon/Agatha" target="_blank" class="viz-card" style="animation-delay: 0.22s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ag/AgathaChristieTheToolsoftheTradeDataFamCon/Agatha/4_3.png" alt="Agatha Christie | The Tools of the Trade | #DataFamCon" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Agatha Christie | The Tools of the Trade | #DataFamCon</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            481
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            7
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/RadialHeatmapTemplateB2VBWeek202022/RadialHeatmapTemplate" target="_blank" class="viz-card" style="animation-delay: 0.23s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ra/RadialHeatmapTemplateB2VBWeek202022/RadialHeatmapTemplate/4_3.png" alt="Radial Heatmap Template | #B2VB Week 20 2022" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Radial Heatmap Template | #B2VB Week 20 2022</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            560
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            15
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/WhyDoesMyDog___IronQuest/DesktopVersion" target="_blank" class="viz-card" style="animation-delay: 0.24s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Wh/WhyDoesMyDog___IronQuest/DesktopVersion/4_3.png" alt="Why Does My Dog... | #IronQuest" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Why Does My Dog... | #IronQuest</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            22,328
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            307
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/GeometricSnowflakes2022RandomNumberGeneratedArt/Snowflakes" target="_blank" class="viz-card" style="animation-delay: 0.25s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ge/GeometricSnowflakes2022RandomNumberGeneratedArt/Snowflakes/4_3.png" alt="Geometric Snowflakes | 2022 | Random Number Generated Art" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Geometric Snowflakes | 2022 | Random Number Generated Art</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            513
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            10
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/RestorationNationTheClassicCarsMakingaComeback/ClassicCars" target="_blank" class="viz-card" style="animation-delay: 0.26s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Re/RestorationNationTheClassicCarsMakingaComeback/ClassicCars/4_3.png" alt="Restoration Nation | The Classic Cars Making a Comeback" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Restoration Nation | The Classic Cars Making a Comeback</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            358
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            10
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/TableausInformationisBeautifulIIBAwards/IIBAwards" target="_blank" class="viz-card" style="animation-delay: 0.27s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ta/TableausInformationisBeautifulIIBAwards/IIBAwards/4_3.png" alt="Tableau's Information is Beautiful (IIB) Awards" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Tableau's Information is Beautiful (IIB) Awards</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            8,279
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            114
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/ClosingtheYouthLiteracyGapIronViz2022/Dashboard1" target="_blank" class="viz-card" style="animation-delay: 0.28s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Cl/ClosingtheYouthLiteracyGapIronViz2022/Dashboard1/4_3.png" alt="Closing the Youth Literacy Gap | Iron Viz 2022" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Closing the Youth Literacy Gap | Iron Viz 2022</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            20,658
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            379
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/InterpretingArtIronViz2022Drawful2/Dash" target="_blank" class="viz-card" style="animation-delay: 0.29s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/In/InterpretingArtIronViz2022Drawful2/Dash/4_3.png" alt="Interpreting Art | Iron Viz 2022 | Drawful 2" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Interpreting Art | Iron Viz 2022 | Drawful 2</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            11,290
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            191
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/TheToughestTour/TourdeFrance" target="_blank" class="viz-card" style="animation-delay: 0.3s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Th/TheToughestTour/TourdeFrance/4_3.png" alt="The Toughest Tour | Tour de France" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">The Toughest Tour | Tour de France</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            12,515
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            171
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/FBIsMostWanted_16332949514690/MostWanted" target="_blank" class="viz-card" style="animation-delay: 0.31s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/FB/FBIsMostWanted_16332949514690/MostWanted/4_3.png" alt="The FBI's Most Wanted" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">The FBI's Most Wanted</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            10,929
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            143
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/WheretoPasstheGreatBritishDrivingTest/DrivingTests" target="_blank" class="viz-card" style="animation-delay: 0.32s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Wh/WheretoPasstheGreatBritishDrivingTest/DrivingTests/4_3.png" alt="Where to Pass the Great British Driving Test" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Where to Pass the Great British Driving Test</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            9,576
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            82
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/GoldenRatioPrinciplesofDesigninDataviz/Title" target="_blank" class="viz-card" style="animation-delay: 0.33s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Go/GoldenRatioPrinciplesofDesigninDataviz/Title/4_3.png" alt="The Golden Ratio | Principles of Design in Dataviz" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">The Golden Ratio | Principles of Design in Dataviz</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            11,926
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            179
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/DiversityScorecardRWFD/RWFDINC-DiversityScorecard" target="_blank" class="viz-card" style="animation-delay: 0.34s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Di/DiversityScorecardRWFD/RWFDINC-DiversityScorecard/4_3.png" alt="HR Diversity Scorecard | #RWFD" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">HR Diversity Scorecard | #RWFD</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            22,275
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            115
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/FinancialComplaintsRWFD/Overview" target="_blank" class="viz-card" style="animation-delay: 0.35s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Fi/FinancialComplaintsRWFD/Overview/4_3.png" alt="Financial Complaints | #RWFD" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Financial Complaints | #RWFD</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            8,871
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            98
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/PokemonColourPalettes/PokePalettes" target="_blank" class="viz-card" style="animation-delay: 0.36s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Po/PokemonColourPalettes/PokePalettes/4_3.png" alt="Pokemon Colour Palettes" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Pokemon Colour Palettes</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            5,316
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            90
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/TheGutenbergDiagramPrinciplesofDesigninDataviz/Title" target="_blank" class="viz-card" style="animation-delay: 0.37s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Th/TheGutenbergDiagramPrinciplesofDesigninDataviz/Title/4_3.png" alt="The Gutenberg Diagram | Principles of Design in Dataviz" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">The Gutenberg Diagram | Principles of Design in Dataviz</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            6,404
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            91
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/2020IronvizSubmissionTweets/2020IronvizTwitterSubmissions" target="_blank" class="viz-card" style="animation-delay: 0.38s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/20/2020IronvizSubmissionTweets/2020IronvizTwitterSubmissions/4_3.png" alt="2020 Ironviz Submission Tweets" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">2020 Ironviz Submission Tweets</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            5,391
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            66
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/HierarchyofNeedsPrinciplesofDesign/Title" target="_blank" class="viz-card" style="animation-delay: 0.39s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Hi/HierarchyofNeedsPrinciplesofDesign/Title/4_3.png" alt="Hierarchy of Needs | Principles of Design in Dataviz" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Hierarchy of Needs | Principles of Design in Dataviz</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            4,517
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            64
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/ForgivenessPrinciplesofDesigninDataviz/Title" target="_blank" class="viz-card" style="animation-delay: 0.4s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Fo/ForgivenessPrinciplesofDesigninDataviz/Title/4_3.png" alt="Forgiveness | Principles of Design in Dataviz" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Forgiveness | Principles of Design in Dataviz</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            4,127
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            74
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/HaloTheLegacyMatchCollection/TitleScreen" target="_blank" class="viz-card" style="animation-delay: 0.41s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ha/HaloTheLegacyMatchCollection/TitleScreen/4_3.png" alt="Halo | The Legacy Match Collection | #IronQuest" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Halo | The Legacy Match Collection | #IronQuest</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            3,434
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            21
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/RunningforOlympicGold/RunningforOlympicGold" target="_blank" class="viz-card" style="animation-delay: 0.42s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Ru/RunningforOlympicGold/RunningforOlympicGold/4_3.png" alt="Running for Olympic Gold" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Running for Olympic Gold</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            2,673
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            66
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://public.tableau.com/app/profile/wjsutton/viz/TutorialBuildingPresentationsinTableau/Dashboard1" target="_blank" class="viz-card" style="animation-delay: 0.43s">
+                <div class="viz-image-container">
+                    <img src="https://public.tableau.com/static/images/Tu/TutorialBuildingPresentationsinTableau/Dashboard1/4_3.png" alt="Tutorial | Building Presentations in Tableau" class="viz-image" loading="lazy">
+                    <div class="viz-overlay">
+                        <span class="view-button">
+                            View Dashboard
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="viz-info">
+                    <h3 class="viz-title">Tutorial | Building Presentations in Tableau</h3>
+                    <div class="viz-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            2,103
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            91
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem; color: var(--text-muted);">
+            <p style="font-size: 0.9rem;">Showing 50 featured visualizations • <a href="https://public.tableau.com/app/profile/wjsutton/vizzes" target="_blank" style="color: var(--accent);">View all 136 on Tableau Public →</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>Gallery generated from <a href="https://public.tableau.com/app/profile/wjsutton" target="_blank">Tableau Public profile</a> • #IronViz 2022 Champion</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Co-host of #GamesNightViz</p>
+    </footer>
+
+    <script>
+        // Handle image loading errors with fallback
+        document.querySelectorAll('.viz-image').forEach(img => {
+            img.onerror = function() {
+                this.style.display = 'none';
+                const placeholder = document.createElement('div');
+                placeholder.className = 'viz-image-placeholder';
+                placeholder.textContent = 'Preview unavailable';
+                this.parentElement.appendChild(placeholder);
+            };
+        });
+    </script>
+</body>
+</html>

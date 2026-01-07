@@ -1,0 +1,12 @@
+title: "Tableau Public MCP Examples"
+description: "Examples, Use Cases and Prompt Templates for the Tableau Public MCP Server"
+theme: minima
+baseurl: "/tableau-public-mcp-examples"
+url: "https://wjsutton.github.io"
+
+# Enable code highlighting
+markdown: kramdown
+highlighter: rouge
+
+# Show page excerpts
+show_excerpts: true
