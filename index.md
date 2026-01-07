@@ -21,54 +21,6 @@ The Tableau Public MCP Server enables Claude to analyse Tableau Public visualisa
 
 ## Examples
 
-### 🖼️ Gallery Page Generator
-
-![HTML](https://img.shields.io/badge/Output-HTML-orange?style=flat-square) ![Complexity](https://img.shields.io/badge/Complexity-Easy-green?style=flat-square)
-
-**What it does:** Automatically creates a responsive HTML gallery page displaying all visualisations from a Tableau Public profile with thumbnails and clickable links.
-
-**Use case:** Perfect for portfolio websites, personal showcase pages, or embedding your complete visualisation collection. The gallery is self-contained (single HTML file) and mobile-responsive.
-
-**Example prompt:**
-```
-Can you take every viz from my tableau profile: wjsutton and create a html page
-that is a gallery of images of every viz with a clickable link to the dashboard.
-```
-
-**Prompt template:**
-```
-Can you take every viz from my Tableau Public profile: [your-username]
-and create a [output-type] page that is a gallery of images of every viz
-with a clickable link to the dashboard.
-
-Optional additions:
-* Include viz titles and view counts
-* Use a [layout-style] layout (grid, masonry, carousel)
-* Add [filtering-options] (by date, views, favourites)
-* Style with [colour-scheme] colours
-```
-
-**Placeholders to customise:**
-
-| Placeholder | Description | Example |
-|-------------|-------------|---------|
-| `[your-username]` | Your Tableau Public username | wjsutton |
-| `[output-type]` | File format | HTML, Markdown |
-| `[layout-style]` | Grid arrangement | responsive grid, masonry |
-| `[filtering-options]` | Interactive features | sort by views, filter by date |
-| `[colour-scheme]` | Visual styling | dark theme, brand colours |
-
-**Output:** [View the gallery →](./gallery.html)
-
-<details>
-<summary>🔍 Preview the gallery (click to expand)</summary>
-
-<iframe src="./gallery.html" width="100%" height="600px" style="border: 1px solid #e5e7eb; border-radius: 8px; margin-top: 1rem;"></iframe>
-
-</details>
-
----
-
 ### 💼 Job Application Portfolio
 
 ![HTML](https://img.shields.io/badge/Output-HTML-orange?style=flat-square) ![Complexity](https://img.shields.io/badge/Complexity-Advanced-red?style=flat-square)
@@ -125,9 +77,13 @@ Optional:
 
 </details>
 
+<br>
+<br>
+<br>
+
 ---
 
-### 📊 Marketing Dashboard Build Guide
+### 📊 How Was This Dashboard Made?
 
 ![Markdown](https://img.shields.io/badge/Output-Markdown-blue?style=flat-square) ![Complexity](https://img.shields.io/badge/Complexity-Medium-yellow?style=flat-square)
 
@@ -186,9 +142,13 @@ Optional specifications:
 > - **Phase 8:** Polish, formatting, and testing
 > - **Bonus:** Gaming industry adaptations
 
+<br>
+<br>
+<br>
+
 ---
 
-### 📈 Radial Plot Build Guide
+### 📈 How Would I Build This Chart?
 
 ![Markdown](https://img.shields.io/badge/Output-Markdown-blue?style=flat-square) ![Complexity](https://img.shields.io/badge/Complexity-Advanced-red?style=flat-square)
 
@@ -243,6 +203,63 @@ My data details:
 > - **Section 7-8:** Practical examples and reference workbooks
 > - **Section 9-10:** Troubleshooting and quick start checklist
 
+<br>
+<br>
+<br>
+
+---
+
+
+### 🖼️ Make My Portfolio Into A Gallery
+
+![HTML](https://img.shields.io/badge/Output-HTML-orange?style=flat-square) ![Complexity](https://img.shields.io/badge/Complexity-Easy-green?style=flat-square)
+
+**What it does:** Automatically creates a responsive HTML gallery page displaying all visualisations from a Tableau Public profile with thumbnails and clickable links.
+
+**Use case:** Perfect for portfolio websites, personal showcase pages, or embedding your complete visualisation collection. The gallery is self-contained (single HTML file) and mobile-responsive.
+
+**Example prompt:**
+```
+Can you take every viz from my tableau profile: wjsutton and create a html page
+that is a gallery of images of every viz with a clickable link to the dashboard.
+```
+
+**Prompt template:**
+```
+Can you take every viz from my Tableau Public profile: [your-username]
+and create a [output-type] page that is a gallery of images of every viz
+with a clickable link to the dashboard.
+
+Optional additions:
+* Include viz titles and view counts
+* Use a [layout-style] layout (grid, masonry, carousel)
+* Add [filtering-options] (by date, views, favourites)
+* Style with [colour-scheme] colours
+```
+
+**Placeholders to customise:**
+
+| Placeholder | Description | Example |
+|-------------|-------------|---------|
+| `[your-username]` | Your Tableau Public username | wjsutton |
+| `[output-type]` | File format | HTML, Markdown |
+| `[layout-style]` | Grid arrangement | responsive grid, masonry |
+| `[filtering-options]` | Interactive features | sort by views, filter by date |
+| `[colour-scheme]` | Visual styling | dark theme, brand colours |
+
+**Output:** [View the gallery →](./gallery.html)
+
+<details>
+<summary>🔍 Preview the gallery (click to expand)</summary>
+
+<iframe src="./gallery.html" width="100%" height="600px" style="border: 1px solid #e5e7eb; border-radius: 8px; margin-top: 1rem;"></iframe>
+
+</details>
+
+<br>
+<br>
+<br>
+
 ---
 
 ## How to Use These Templates
@@ -263,9 +280,9 @@ My data details:
 
 ## Additional Resources
 
-- [Tableau Public: wjsutton](https://public.tableau.com/app/profile/wjsutton)
-- [Model Context Protocol Overview](https://modelcontextprotocol.io)
-- [GitHub Pages Setup Guide](./gh-pages-guide.md)
+- [Tableau Public MCP](https://github.com/wjsutton/tableau-public-mcp)
+- [Tableau Public](https://public.tableau.com/app/discover)
+- [Tableau Public MCP](https://github.com/wjsutton/tableau_public_api)
 
 ## Contributing
 
