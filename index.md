@@ -6,16 +6,14 @@ description: "Prompt templates, examples, and guides for using Claude with the T
 
 # Tableau Public MCP Examples
 
-> Real-world examples, prompt templates, and guides for using Claude with the Tableau Public MCP Server
-
 ## What is This?
 
 The Tableau Public MCP Server enables Claude to analyse Tableau Public visualisations, extract data structures, and generate dashboards, galleries, and guides. This repository showcases practical examples you can adapt for your own projects.
 
 ## Prerequisites
 
-- Tableau Public MCP Server installed and configured
-- A Tableau Public account (optional for viewing examples)
+- [Tableau Public MCP Server](https://github.com/wjsutton/tableau-public-mcp) installed and configured
+- A [Tableau Public](https://public.tableau.com/app/discover) account (optional for viewing examples)
 
 ---
 
@@ -70,12 +68,7 @@ Optional:
 
 **Output:** [View the portfolio →](./jagex.html)
 
-<details>
-<summary>🔍 Preview the portfolio (click to expand)</summary>
-
-<iframe src="./jagex.html" width="100%" height="600px" style="border: 1px solid #e5e7eb; border-radius: 8px; margin-top: 1rem;"></iframe>
-
-</details>
+<a class="preview" href="./jagex.html" aria-label="Open the full document"><iframe src="./jagex.html" title="Preview" loading="lazy" scrolling="no" tabindex="-1"></iframe></a>
 
 <br>
 <br>
@@ -142,6 +135,8 @@ Optional specifications:
 > - **Phase 8:** Polish, formatting, and testing
 > - **Bonus:** Gaming industry adaptations
 
+<a class="preview" href="./marketing-dashboard-guide.html" aria-label="Open the full document"><iframe src="./marketing-dashboard-guide.html" title="Preview" loading="lazy" scrolling="no" tabindex="-1"></iframe></a>
+
 <br>
 <br>
 <br>
@@ -203,6 +198,8 @@ My data details:
 > - **Section 7-8:** Practical examples and reference workbooks
 > - **Section 9-10:** Troubleshooting and quick start checklist
 
+<a class="preview" href="./radial-plot-tableau-guide.html" aria-label="Open the full document"><iframe src="./radial-plot-tableau-guide.html" title="Preview" loading="lazy" scrolling="no" tabindex="-1"></iframe></a>
+
 <br>
 <br>
 <br>
@@ -249,12 +246,7 @@ Optional additions:
 
 **Output:** [View the gallery →](./gallery.html)
 
-<details>
-<summary>🔍 Preview the gallery (click to expand)</summary>
-
-<iframe src="./gallery.html" width="100%" height="600px" style="border: 1px solid #e5e7eb; border-radius: 8px; margin-top: 1rem;"></iframe>
-
-</details>
+<a class="preview" href="./gallery.html" aria-label="Open the full document"><iframe src="./gallery.html" title="Preview" loading="lazy" scrolling="no" tabindex="-1"></iframe></a>
 
 <br>
 <br>
@@ -280,9 +272,35 @@ Optional additions:
 
 ## Additional Resources
 
-- [Tableau Public MCP](https://github.com/wjsutton/tableau-public-mcp)
-- [Tableau Public](https://public.tableau.com/app/discover)
-- [Tableau Public MCP](https://github.com/wjsutton/tableau_public_api)
+### [Tableau Public MCP Server](https://github.com/wjsutton/tableau-public-mcp)
+
+The MCP server behind every example on this page. It gives Claude 22 tools for Tableau Public: user profiles, workbook lists and details, thumbnails, followers and favourites, Viz of the Day, search, and analysis of downloaded `.twbx` workbooks (calculated fields, LODs, data profiles). No Tableau account or API key is needed, as all endpoints are public.
+
+**Quick install** (needs [Node.js](https://nodejs.org/) 20+). Add this to your Claude Desktop config file, then restart Claude:
+
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "tableau-public": {
+      "command": "npx",
+      "args": ["-y", "@wjsutton/tableau-public-mcp-server@latest"]
+    }
+  }
+}
+```
+
+Prefer video? Watch the [setup guide for Claude Desktop and VS Code](https://www.youtube.com/watch?v=Jf2ocrb-kY4). For building from source and the full tool list, see the [README](https://github.com/wjsutton/tableau-public-mcp#readme).
+
+### [Tableau Public](https://public.tableau.com/app/discover)
+
+Tableau's free platform for publishing and exploring interactive dashboards. Browse it for vizzes to analyse, or point the examples above at your own profile.
+
+### [Tableau Public API Documentation](https://github.com/wjsutton/tableau_public_api)
+
+Community documentation of Tableau Public's REST API: every endpoint the MCP server uses, with example calls and walkthroughs. Useful if you want to call the API directly from Python, R or JavaScript.
 
 ## Contributing
 

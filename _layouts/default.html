@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% if page.title and page.title != site.title %}{{ page.title }}, {% endif %}{{ site.title }}, Will Sutton</title>
+  <meta name="description" content="{{ page.description | default: site.description }}" />
+  <link rel="icon" href="https://wjsutton.github.io/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600&family=Saira+Semi+Condensed:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ponytail: tokens copied from wjsutton.github.io src/styles/tokens.css; keep in sync by hand */
+    :root {
+      --hud-dark: #040b1c; --hud-card: #081430; --paper: #faf7f2;
+      --muted-stronger: rgba(250, 247, 242, 0.72); --muted: rgba(250, 247, 242, 0.55);
+      --accent: #5cc2f2; --frame: rgba(169, 182, 230, 0.55); --frame-hi: #d6e4ff;
+      --rule: rgba(92, 194, 242, 0.18); --rule-strong: rgba(92, 194, 242, 0.35);
+      --font-body: 'Saira', system-ui, sans-serif; --font-label: 'Saira Semi Condensed', system-ui, sans-serif;
+      --ratio: 1.5; --s0: 1.0625rem; --s1: calc(var(--s0) * var(--ratio));
+      --s2: calc(var(--s1) * var(--ratio)); --s3: calc(var(--s2) * var(--ratio));
+      --edge: clamp(24px, 3.6vw, 56px); --brand-top: clamp(28px, 4.2vh, 42px); --cut: 14px;
+    }
+    @media (max-width: 820px) { :root { --ratio: 1.25; --s0: 0.9375rem; } }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { color-scheme: dark; background: var(--hud-dark); }
+    body {
+      min-height: 100dvh; background: var(--hud-dark); color: var(--paper);
+      font-family: var(--font-body); font-size: var(--s0); line-height: 1.5; letter-spacing: 0.01em;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .label { font-family: var(--font-label); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
+
+    .wrap { max-width: 960px; margin: 0 auto; padding: var(--brand-top) var(--edge) 80px; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .top a { display: flex; align-items: center; min-height: 44px; color: var(--muted-stronger); }
+    .top a:hover { color: var(--accent); text-decoration: none; }
+    .brand { font-size: 20px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--paper) !important; }
+
+    /* Markdown content */
+    main > * + * { margin-top: 1em; }
+    main h1 { font-size: var(--s3); font-weight: 400; line-height: 1; margin: var(--s2) 0 var(--s1); }
+    main h2 { font-size: var(--s2); font-weight: 400; line-height: 1.15; margin-top: var(--s2); color: var(--accent); }
+    main h3 { font-size: var(--s1); font-weight: 500; line-height: 1.2; margin-top: var(--s1); }
+    main h4 { font-family: var(--font-label); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-top: var(--s1); }
+    main p, main li { color: var(--muted-stronger); }
+    main strong { color: var(--paper); font-weight: 600; }
+    main ul, main ol { padding-left: 1.4em; }
+    main li + li { margin-top: 0.35em; }
+    main li::marker { color: var(--accent); }
+    main hr { border: 0; border-top: 1px solid var(--rule); margin: var(--s2) 0; }
+    main p > img { display: inline-block; vertical-align: middle; }
+
+    main code { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 0.88em; color: var(--frame-hi); }
+    main :not(pre) > code { background: var(--hud-card); padding: 0.1em 0.4em; border: 1px solid var(--rule); }
+    main pre, main .highlight {
+      background: var(--hud-card); border: 1px solid var(--frame); padding: 16px 20px; overflow-x: auto;
+      clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
+    }
+    main .highlight pre { border: 0; padding: 0; clip-path: none; }
+    main pre code { color: var(--paper); line-height: 1.6; white-space: pre-wrap; }
+
+    main blockquote { border-left: 2px solid var(--accent); padding: 4px 0 4px 20px; }
+    main blockquote p { color: var(--paper); }
+
+    main table { width: 100%; border-collapse: collapse; font-size: 0.92em; display: block; overflow-x: auto; }
+    main th { font-family: var(--font-label); font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); text-align: left; }
+    main th, main td { padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+    main td { color: var(--muted-stronger); }
+
+    main details { border: 1px solid var(--rule-strong); padding: 12px 16px; }
+    main summary { cursor: pointer; font-family: var(--font-label); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+    /* Cropped, non-scrolling preview; the whole box links to the full document. */
+    main .preview { position: relative; display: block; height: 420px; overflow: hidden; border: 1px solid var(--frame); transition: border-color 0.25s ease; }
+    main .preview:hover { border-color: var(--frame-hi); }
+    main .preview::after {
+      content: 'Open full document →'; position: absolute; inset: auto 0 0 0; padding: 60px 20px 16px; text-align: right;
+      font-family: var(--font-label); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent);
+      background: linear-gradient(180deg, rgba(4, 11, 28, 0), var(--hud-dark) 75%);
+    }
+    /* Rendered at 2x size then scaled to half, so it reads like a desktop thumbnail. */
+    main .preview iframe {
+      display: block; width: 200%; height: 840px; border: 0; pointer-events: none; background: var(--hud-dark);
+      transform: scale(0.5); transform-origin: 0 0;
+    }
+
+    footer { margin-top: var(--s3); padding-top: 24px; border-top: 1px solid var(--rule); color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="top" aria-label="Site">
+      <a class="brand" href="https://wjsutton.github.io/">Will Sutton</a>
+      <a class="label" href="https://wjsutton.github.io/">← Home</a>
+    </nav>
+    <main>
+      {{ content }}
+    </main>
+    <footer class="label"><a href="https://wjsutton.github.io/">wjsutton.github.io</a></footer>
+  </div>
+</body>
+</html>
